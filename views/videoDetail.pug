@@ -1,0 +1,27 @@
+extends layouts/main
+include mixins/videoPlayer
+
+block content
+    .video-detail-container
+        +videoPlayer({
+            src:video.fileUrl
+        })
+        .video-info
+            if loggedUser && video.creator.id === loggedUser.id 
+                    a(href=routes.editVideo(video.id)) 
+                        button Edit Video
+            h5.video-title=video.title
+            p.video-description=video.description
+            .video__author
+                | Uploaded by  
+                a(href=routes.userDetail(video.creator.id))=video.creator.name
+            if video.views === 1
+                span.video-views 1 view
+            else 
+                span.video-views #{video.views} views
+        .video-comment 
+            if video.comments.length === 1
+                span.video-comment-number 1 comment
+            else 
+                span.video-comment-number #{video.comments.length} comments
+        
